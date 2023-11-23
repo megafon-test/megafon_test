@@ -1,7 +1,7 @@
 # Основы Tarantool
 
-- [Ссылка на файл `api.lua`](ссылка_на_api.lua)
-- [Ссылка на файл `storage.lua`](ссылка_на_storage.lua)
+- [Решение 1, 2 части задания (файл - `api.lua`)](https://github.com/megafon-test/megafon_test/blob/master/app/roles/api.lua)
+- [Решение 3 части задания (файл - `storage.lua`)](https://github.com/megafon-test/megafon_test/blob/master/app/roles/storage.lua)
 
 ## Часть 1: Установка и Инициализация
 
