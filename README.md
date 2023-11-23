@@ -1,89 +1,48 @@
-# Simple Tarantool Cartridge-based application
+# Основы Tarantool
 
-This a simplest application based on Tarantool Cartridge.
+- [Ссылка на файл `api.lua`](ссылка_на_api.lua)
+- [Ссылка на файл `storage.lua`](ссылка_на_storage.lua)
 
-## Quick start
+## Часть 1: Установка и Инициализация
 
-To build application and setup topology:
+### Установка Tarantool
 
-```bash
-cartridge build
-cartridge start -d
-cartridge replicasets setup --bootstrap-vshard
-```
+1. Установите Tarantool на свой компьютер.
 
-Now you can visit http://localhost:8081 and see your application's Admin Web UI.
+### Создание пространства данных
 
-**Note**, that application stateboard is always started by default.
-See [`.cartridge.yml`](./.cartridge.yml) file to change this behavior.
+2. Создайте пространство (space) данных с именем `call_records` для хранения записей о телефонных звонках. Структура записи должна включать следующие поля:
+    - `call_id` (идентификатор звонка)
+    - `caller_number` (номер звонящего)
+    - `callee_number` (номер принимающего звонок)
+    - `duration` (длительность звонка в секундах).
 
-## Application
+### Операции с данными
 
-Application entry point is [`init.lua`](./init.lua) file.
-It configures Cartridge, initializes admin functions and exposes metrics endpoints.
-Before requiring `cartridge` module `package_compat.cfg()` is called.
-It configures package search path to correctly start application on production
-(e.g. using `systemd`).
+3. Добавьте несколько тестовых записей в пространство данных `call_records`, представляющих собой различные телефонные звонки.
 
-## Roles
+### Lua-функции
 
-Application has one simple role, [`app.roles.custom`](./app/roles/custom.lua).
-It exposes `/hello` and `/metrics` endpoints:
+4. Напишите Lua-функцию для выборки всех звонков, длительность которых превышает 5 минут.
 
-```bash
-curl localhost:8081/hello
-curl localhost:8081/metrics
-```
+5. Реализуйте Lua-функцию для добавления новой записи о звонке.
 
-Also, Cartridge roles [are registered](./init.lua)
-(`vshard-storage`, `vshard-router` and `metrics`).
+6. Реализуйте возможность удаления записей о звонках.
 
-You can add your own role, but don't forget to register in using
-`cartridge.cfg` call.
+## Часть 2: Оптимизация запросов и Индексы
 
-## Instances configuration
+### Индексы
 
-Configuration of instances that can be used to start application
-locally is places in [instances.yml](./instances.yml).
-It is used by `cartridge start`.
+1. Создайте индексы для ускорения запросов: индекс для поля `call_id` и индекс для поля `caller_number`.
 
-## Topology configuration
+### Оптимизация запросов
 
-Topology configuration is described in [`replicasets.yml`](./replicasets.yml).
-It is used by `cartridge replicasets setup`.
+2. Напишите Lua-функцию, которая выбирает все звонки с указанным номером `caller_number` за последний час.
 
-## Tests
+## Часть 3: HTTP-сервер
 
-Simple unit and integration tests are placed in [`test`](./test) directory.
+### HTTP-сервер
 
-First, we need to install test dependencies:
+1. Реализуйте простой HTTP-сервер, используя Tarantool HTTP-фреймворк или другой подходящий инструмент.
 
-```bash
-./deps.sh
-```
-
-Then, run linter:
-
-```bash
-.rocks/bin/luacheck .
-```
-
-Now we can run tests:
-
-```bash
-cartridge stop  # to prevent "address already in use" error
-.rocks/bin/luatest -v
-```
-
-## Admin
-
-Application has admin function [`probe`](./app/admin.lua) configured.
-You can use it to probe instances:
-
-```bash
-cartridge start -d  # if you've stopped instances
-cartridge admin probe \
-  --name megafon_test \
-  --run-dir ./tmp/run \
-  --uri localhost:3302
-```
+2. Создайте эндпоинт для получения информации о звонке по его идентификатору (`call_id`).

@@ -35,3 +35,4 @@ return {
     apply_config = apply_config,
     -- dependencies = {'cartridge.roles.vshard-router'},
 }
+

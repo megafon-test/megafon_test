@@ -1,0 +1,21 @@
+---
+replicasets:
+  11bbbf88-d164-4f1c-8c17-8fe45c3e5e48:
+    weight: 0
+    master:
+    - 1fe82a74-84ac-473a-a630-b2a47f303d33
+    alias: unnamed
+    roles:
+      app.roles.custom: true
+      ddl-manager: true
+      metrics: true
+      vshard-router: true
+    all_rw: false
+servers:
+  1fe82a74-84ac-473a-a630-b2a47f303d33:
+    electable: true
+    uri: localhost:3301
+    disabled: false
+    replicaset_uuid: 11bbbf88-d164-4f1c-8c17-8fe45c3e5e48
+failover: false
+...

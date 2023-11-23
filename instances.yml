@@ -1,6 +1,7 @@
 ---
 megafon_test.router:
   advertise_uri: localhost:3301
+  password: passwd
   http_port: 8081
 
 megafon_test.s1-master:
@@ -21,4 +22,5 @@ megafon_test.s2-replica:
 
 megafon_test-stateboard:
   listen: localhost:4401
+  workdir: ./work_dir
   password: passwd
